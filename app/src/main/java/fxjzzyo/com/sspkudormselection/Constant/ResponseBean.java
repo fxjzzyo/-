@@ -8,15 +8,24 @@ import java.io.Serializable;
 
 public class ResponseBean implements Serializable {
     private String errcode;
-    private Data data;
+    private String data;
 
-    public Data getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(Data data) {
+    public void setData(String data) {
         this.data = data;
     }
+    /*  private T data;
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }*/
 
     public String getErrcode() {
         return errcode;

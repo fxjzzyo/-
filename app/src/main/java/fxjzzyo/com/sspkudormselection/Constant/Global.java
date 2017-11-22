@@ -13,6 +13,6 @@ public class Global {
     public static String GET_ROOM = BASE_URL + "getRoom";
     public static String SELECT_ROOM = BASE_URL + "SelectRoom";
 
-
+    public static String account = "";
 
 }
