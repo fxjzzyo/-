@@ -4,20 +4,20 @@ package fxjzzyo.com.sspkudormselection.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HostnameVerifier;
@@ -49,6 +49,7 @@ public class MySelectionFragment extends Fragment implements View.OnClickListene
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
     @BindView(R.id.drawerIcon)
     ImageView drawerIcon;
     @BindView(R.id.tool_bar)
@@ -70,13 +71,14 @@ public class MySelectionFragment extends Fragment implements View.OnClickListene
     @BindView(R.id.tv_grade)
     TextView tvGrade;
     Unbinder unbinder;
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
     private View v;
-    // TODO: Rename and change types of parameters
+
+    private ActionBar actionBar;
+
     private String mParam1;
     private String mParam2;
-
-    private ListView mListView;
-    private List<Data> datas;
 
 
     public MySelectionFragment() {
@@ -113,37 +115,36 @@ public class MySelectionFragment extends Fragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if(v!=null){
+        if (v != null) {
             unbinder = ButterKnife.bind(this, v);
             return v;
         }
         View v = inflater.inflate(R.layout.fragment_my_selection, container, false);
         //绑定控件
         unbinder = ButterKnife.bind(this, v);
-        //菜单监听
+        //设置actionbar
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolBar);
+        actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        tvTitle.setText("个人信息");
+        //设置打开菜单监听
         drawerIcon.setOnClickListener(this);
         return v;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        //解绑
-        unbinder.unbind();
-    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        //初始化数据
         initData();
-
     }
 
-
+    /**
+     * 初始化数据
+     */
     private void initData() {
 
-//1 拿到OkHttpClient 对象,设置免https认证
+        //1 拿到OkHttpClient 对象,设置免https认证
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.connectTimeout(1000, TimeUnit.SECONDS);
         builder.sslSocketFactory(NetUtils.createSSLSocketFactory());
@@ -216,6 +217,11 @@ public class MySelectionFragment extends Fragment implements View.OnClickListene
         });
     }
 
+    /**
+     * 设置数据
+     *
+     * @param personData
+     */
     private void setData(PersonData personData) {
         tvStuid.setText(personData.getStudentid());
         tvName.setText(personData.getName());
@@ -226,10 +232,10 @@ public class MySelectionFragment extends Fragment implements View.OnClickListene
     }
 
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        //解除绑定
         unbinder.unbind();
     }
 

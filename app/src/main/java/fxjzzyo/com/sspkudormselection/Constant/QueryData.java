@@ -7,5 +7,4 @@ package fxjzzyo.com.sspkudormselection.Constant;
 public class QueryData {
     private String errmsg;
 
-
 }
