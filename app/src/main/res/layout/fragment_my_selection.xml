@@ -38,7 +38,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="1701210848" />
+                    tools:text="1701210848" />
             </LinearLayout>
 
             <LinearLayout
@@ -59,7 +59,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="周杰伦" />
+                    tools:text="周杰伦" />
             </LinearLayout>
 
             <LinearLayout
@@ -80,7 +80,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="男" />
+                    tools:text="男" />
             </LinearLayout>
 
             <LinearLayout
@@ -101,7 +101,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="asdf12" />
+                    tools:text="asdf12" />
             </LinearLayout>
 
             <LinearLayout
@@ -122,7 +122,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="5101" />
+                    tools:text="5101" />
             </LinearLayout>
 
             <LinearLayout
@@ -143,7 +143,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="5" />
+                    tools:text="5" />
             </LinearLayout>
 
             <LinearLayout
@@ -164,7 +164,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="大兴" />
+                    tools:text="大兴" />
             </LinearLayout>
 
             <LinearLayout
@@ -185,7 +185,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="2017" />
+                    tools:text="2017" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

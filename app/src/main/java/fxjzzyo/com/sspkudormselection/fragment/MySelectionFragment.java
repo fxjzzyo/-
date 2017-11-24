@@ -31,6 +31,7 @@ import fxjzzyo.com.sspkudormselection.Constant.PersonData;
 import fxjzzyo.com.sspkudormselection.Constant.ResponseBean;
 import fxjzzyo.com.sspkudormselection.R;
 import fxjzzyo.com.sspkudormselection.utils.NetUtils;
+import fxjzzyo.com.sspkudormselection.utils.SPFutils;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -38,6 +39,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import static fxjzzyo.com.sspkudormselection.Constant.Global.account;
+import static fxjzzyo.com.sspkudormselection.Constant.Global.vcode;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -146,7 +148,7 @@ public class MySelectionFragment extends Fragment implements View.OnClickListene
 
         //1 拿到OkHttpClient 对象,设置免https认证
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.connectTimeout(1000, TimeUnit.SECONDS);
+        builder.connectTimeout(5000, TimeUnit.SECONDS);
         builder.sslSocketFactory(NetUtils.createSSLSocketFactory());
         builder.hostnameVerifier(new HostnameVerifier() {
             @Override
@@ -204,6 +206,8 @@ public class MySelectionFragment extends Fragment implements View.OnClickListene
                             if (errcode.equals("0")) {//登录成功
                                 //设置数据
                                 setData(personData);
+                                //存储个人信息数据到sharedpreference
+                                saveData(personData);
                             } else {
                                 Toast.makeText(getActivity(), "请求失败！错误代码： " + errcode, Toast.LENGTH_SHORT).show();
                             }
@@ -218,6 +222,20 @@ public class MySelectionFragment extends Fragment implements View.OnClickListene
     }
 
     /**
+     * 存储个人信息数据到sharedpreference
+     */
+    private void saveData(PersonData personData) {
+        SPFutils.saveStringData(getActivity(),SPFutils.STUDID,personData.getStudentid());
+        SPFutils.saveStringData(getActivity(),SPFutils.NAME,personData.getName());
+        SPFutils.saveStringData(getActivity(),SPFutils.GENDER,personData.getGender());
+        SPFutils.saveStringData(getActivity(),SPFutils.VCODE,personData.getVcode());
+        SPFutils.saveStringData(getActivity(),SPFutils.ROOM,personData.getRoom());
+        SPFutils.saveStringData(getActivity(),SPFutils.BUILDING,personData.getBuilding());
+        SPFutils.saveStringData(getActivity(),SPFutils.LOCATION,personData.getBuilding());
+        SPFutils.saveStringData(getActivity(),SPFutils.GRADE,personData.getGrade());
+    }
+
+    /**
      * 设置数据
      *
      * @param personData
@@ -225,10 +243,14 @@ public class MySelectionFragment extends Fragment implements View.OnClickListene
     private void setData(PersonData personData) {
         tvStuid.setText(personData.getStudentid());
         tvName.setText(personData.getName());
+        tvGender.setText(personData.getGender());
         tvVcode.setText(personData.getVcode());
         tvRoom.setText(personData.getRoom());
         tvBuilding.setText(personData.getBuilding());
+        tvLocation.setText(personData.getLocation());
         tvGrade.setText(personData.getGrade());
+
+        vcode = personData.getVcode();
     }
 
 
