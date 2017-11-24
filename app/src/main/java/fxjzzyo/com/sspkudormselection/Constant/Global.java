@@ -13,6 +13,9 @@ public class Global {
     public static String GET_ROOM = BASE_URL + "getRoom";
     public static String SELECT_ROOM = BASE_URL + "SelectRoom";
 
+    //自己的学号
     public static String account = "";
+    //自己的校验码
+    public static String vcode = "";
 
 }

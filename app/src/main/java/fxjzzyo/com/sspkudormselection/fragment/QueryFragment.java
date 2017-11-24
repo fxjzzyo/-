@@ -134,7 +134,6 @@ public class QueryFragment extends Fragment implements View.OnClickListener {
         //为spinner设置适配器
         spinner.setAdapter(adapter);
         //默认选择男生宿舍
-//        spinner.setSelection(0);
         currentSelect = 1;
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -184,7 +183,7 @@ public class QueryFragment extends Fragment implements View.OnClickListener {
     private void queryFromNet(int currentSelect) {
         //1 拿到OkHttpClient 对象,设置免https认证
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.connectTimeout(1000, TimeUnit.SECONDS);
+        builder.connectTimeout(5000, TimeUnit.SECONDS);
         builder.sslSocketFactory(NetUtils.createSSLSocketFactory());
         builder.hostnameVerifier(new HostnameVerifier() {
             @Override

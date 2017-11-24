@@ -65,7 +65,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    tools:text="周杰伦" />
+                    tools:text="123" />
             </LinearLayout>
 
             <LinearLayout
@@ -86,7 +86,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    tools:text="男" />
+                    tools:text="2" />
             </LinearLayout>
 
             <LinearLayout
@@ -107,7 +107,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    tools:text="asdf12" />
+                    tools:text="45" />
             </LinearLayout>
 
             <LinearLayout
@@ -128,7 +128,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    tools:text="5101" />
+                    tools:text="67" />
             </LinearLayout>
 
         </LinearLayout>
