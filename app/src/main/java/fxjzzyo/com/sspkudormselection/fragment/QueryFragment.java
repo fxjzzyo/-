@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -122,8 +121,8 @@ public class QueryFragment extends Fragment implements View.OnClickListener {
 
     private void initEvent() {
         //设置actionbar
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolBar);
-        actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+//        ((AppCompatActivity) getActivity()).setSupportActionBar(toolBar);
+//        actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         tvTitle.setText("查询剩余床位数");
         drawerIcon.setOnClickListener(this);
         //实例化适配器

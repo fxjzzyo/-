@@ -27,9 +27,15 @@
         <item name="windowNoTitle">true</item>
     </style>
     <!--my style-->
-    <style name="blue_button_style">
+    <style name="red_button_style">
         <item name="colorButtonNormal">@color/colorPrimary</item>
-        <item name="android:state_activated">@color/md_deep_orange_a700</item>
+        <item name="android:colorActivatedHighlight">@color/red</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:textSize">20sp</item>
+
+        <!--<item name="android:state_activated">@color/md_deep_orange_a700</item>-->
     </style>
 
     <style name="MenuTextStyle">
@@ -64,5 +70,21 @@
         <item name="android:background">@color/white</item>
 
     </style>
+    <style name="dialog_style" parent="android:Theme.Holo.Light.Dialog.MinWidth">
+        <item name="android:listChoiceIndicatorSingle">@drawable/selector_check</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="edit_text_style">
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:background">@drawable/selector_edit_text</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:lines">1</item>
+    </style>
+
 
 </resources>

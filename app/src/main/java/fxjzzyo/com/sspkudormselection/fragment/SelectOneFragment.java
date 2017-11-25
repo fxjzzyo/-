@@ -144,7 +144,7 @@ public class SelectOneFragment extends Fragment implements SwipeRefreshLayout.On
         tvGender.setText(gender);
         tvVcode.setText(vcode);
 
-        queryFromNet(1);//设置剩余床位信息，默认查男生宿舍
+        queryFromNet(Global.gender);//设置剩余床位信息，默认查男生宿舍
 
     }
 
@@ -161,6 +161,12 @@ public class SelectOneFragment extends Fragment implements SwipeRefreshLayout.On
 
     @OnClick(R.id.btn_post_select)
     public void postSelect() {
+        //确保选择了楼号
+        if (tvTargetBuilding.getText().toString().isEmpty()) {
+            Toast.makeText(getActivity(),"请选择楼号！",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         //1 拿到OkHttpClient 对象,设置免https认证
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.connectTimeout(5000, TimeUnit.SECONDS);
@@ -241,14 +247,15 @@ public class SelectOneFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     private String building[] = new String[]{"5号楼", "13号楼", "14号楼", "8号楼", "9号楼"};
-    private DialogOnClick dialogOnClick = new DialogOnClick(1);
+    private DialogOnClick dialogOnClick = new DialogOnClick();//默认选中当前选中的楼号
 
     // 在单选选项中显示 确定和取消按钮
     //buttonOnClickg变量的数据类型是ButtonOnClick,一个单击事件类
     private void showSingleChoiceButton() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),R.style.dialog_style);
         builder.setTitle("请选择楼号");
-        builder.setSingleChoiceItems(building, 0, dialogOnClick);//默认选5号楼
+        //默认选中当前选中的楼号selectBuilding
+        builder.setSingleChoiceItems(building, selectBuilding, dialogOnClick);
         builder.setPositiveButton("确定", dialogOnClick);
         builder.setNegativeButton("取消", dialogOnClick);
         builder.create().show();
@@ -259,7 +266,7 @@ public class SelectOneFragment extends Fragment implements SwipeRefreshLayout.On
      */
     @Override
     public void onRefresh() {
-        queryFromNet(1);//默认查男生宿舍
+        queryFromNet(Global.gender);//默认查男生宿舍
     }
     /**
      * 根据选择的宿舍类别查询数据
@@ -296,8 +303,6 @@ public class SelectOneFragment extends Fragment implements SwipeRefreshLayout.On
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-//                        showProgress(false);
-//                        loginProgress.setVisibility(View.GONE);
                         if(swipeRefreshLayout.isRefreshing()){
                             swipeRefreshLayout.setRefreshing(false);
                         }
@@ -318,17 +323,12 @@ public class SelectOneFragment extends Fragment implements SwipeRefreshLayout.On
                 if (responseBean != null) {
                     //解析各楼号的床位数
                     final String data = responseBean.getData();
-
                     final JSONObject jsonObject = JSON.parseObject(data);
-
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-//                            showProgress(false);
-//                            loginProgress.setVisibility(View.GONE);
                             String errcode = responseBean.getErrcode();
                             Log.i("tag", "errcode: " + errcode);
-//                            Log.i("tag", "data: " + personData.toString());
                             if (errcode.equals("0")) {//登录成功
                                 //设置数据
                                 setData(jsonObject);
@@ -369,10 +369,8 @@ public class SelectOneFragment extends Fragment implements SwipeRefreshLayout.On
     }
     private class DialogOnClick implements DialogInterface.OnClickListener {
 
-        private int index; // 表示选项的索引
 
-        public DialogOnClick(int index) {
-            this.index = index;
+        public DialogOnClick() {
         }
 
         @Override
@@ -383,12 +381,12 @@ public class SelectOneFragment extends Fragment implements SwipeRefreshLayout.On
                 //如果单击的是列表项，将当前列表项的索引保存在index中。
                 //如果想单击列表项后关闭对话框，可在此处调用dialog.cancel()
                 //或是用dialog.dismiss()方法。
-                index = which;
+                selectBuilding = which;//当前选中的宿舍号
             } else {
                 //用户单击的是【确定】按钮
                 if (which == DialogInterface.BUTTON_POSITIVE) {
-                    tvTargetBuilding.setText(building[index]);//设置选择的楼号
-                    selectBuilding = which;//当前选中的宿舍号
+                    tvTargetBuilding.setText(building[selectBuilding]);//设置选择的楼号
+
                 }
                 //用户单击的是【取消】按钮
                 else if (which == DialogInterface.BUTTON_NEGATIVE) {
