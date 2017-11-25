@@ -3,15 +3,14 @@ package fxjzzyo.com.sspkudormselection;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.design.widget.TextInputEditText;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -37,7 +36,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends Activity {
 private static final int SUCCESS = 1;
 private static final int FAILED = 0;
 
@@ -45,29 +44,12 @@ private static final int FAILED = 0;
     private Button btnLogin;
     private ProgressBar loginProgress;
     private View mLoginFormView;
-    private Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message message) {
 
-            switch (message.what) {
-                case SUCCESS:
-                 //登录成功
-
-                 break;
-                case FAILED:
-
-                    break;
-                default:
-                    break;
-            }
-
-            return false;
-        }
-    });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
 
         initViews();

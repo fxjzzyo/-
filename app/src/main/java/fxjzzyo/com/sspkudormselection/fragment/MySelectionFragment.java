@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -125,8 +124,8 @@ public class MySelectionFragment extends Fragment implements View.OnClickListene
         //绑定控件
         unbinder = ButterKnife.bind(this, v);
         //设置actionbar
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolBar);
-        actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+//        ((AppCompatActivity) getActivity()).setSupportActionBar(toolBar);
+//        actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         tvTitle.setText("个人信息");
         //设置打开菜单监听
         drawerIcon.setOnClickListener(this);
@@ -249,8 +248,13 @@ public class MySelectionFragment extends Fragment implements View.OnClickListene
         tvBuilding.setText(personData.getBuilding());
         tvLocation.setText(personData.getLocation());
         tvGrade.setText(personData.getGrade());
-
+        //记录校验码
         vcode = personData.getVcode();
+        String gender = personData.getGender();
+        if (gender.equals("女")) {
+            //记录性别
+            Global.gender = 2;//默认为1，男生
+        }
     }
 
 

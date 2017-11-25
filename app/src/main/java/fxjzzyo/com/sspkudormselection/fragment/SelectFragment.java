@@ -7,7 +7,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -118,7 +117,7 @@ public class SelectFragment extends Fragment implements View.OnClickListener {
         //添加选宿舍的四个fragment
         addFragment();
         //初始化myFragmentPagerAdapter
-        myFragmentPagerAdapter = new MyFragmentPagerAdapter(getFragmentManager(),fragmentlist);
+        myFragmentPagerAdapter = new MyFragmentPagerAdapter(getChildFragmentManager(),fragmentlist);
     }
 
     /**
@@ -133,13 +132,14 @@ public class SelectFragment extends Fragment implements View.OnClickListener {
 
     private void initEvent() {
         //设置actionbar
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolBar);
-        actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+//        ((AppCompatActivity) getActivity()).setSupportActionBar(toolBar);
+//        actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         tvTitle.setText("选择宿舍");
         drawerIcon.setOnClickListener(this);
         //为viewpager设置适配器
         viewPager.setAdapter(myFragmentPagerAdapter);
-
+        //设置viewpager缓存的页面个数为3
+        viewPager.setOffscreenPageLimit(3);
         //将 tabLayout与 viewPager关联
         tabLayout.setupWithViewPager(viewPager);
 
