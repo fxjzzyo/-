@@ -4,23 +4,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/normalBackground"
     tools:context="fxjzzyo.com.sspkudormselection.fragment.MySelectionFragment">
 
     <include layout="@layout/toolbar_layout" />
-
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
 
         <LinearLayout
-            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
 
             <LinearLayout
+                style="@style/lineralayout_item_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -42,6 +46,7 @@
             </LinearLayout>
 
             <LinearLayout
+                style="@style/lineralayout_item_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -63,6 +68,7 @@
             </LinearLayout>
 
             <LinearLayout
+                style="@style/lineralayout_item_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -85,6 +91,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                style="@style/lineralayout_item_style"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
@@ -107,6 +114,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/lineralayout_item_style"
                 android:orientation="horizontal">
 
                 <TextView
@@ -128,6 +136,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/lineralayout_item_style"
                 android:orientation="horizontal">
 
                 <TextView
@@ -148,6 +157,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                style="@style/lineralayout_item_style"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
@@ -169,6 +179,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                style="@style/lineralayout_item_style"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
@@ -189,4 +200,5 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

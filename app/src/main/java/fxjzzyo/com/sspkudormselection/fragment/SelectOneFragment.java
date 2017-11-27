@@ -31,6 +31,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import fxjzzyo.com.sspkudormselection.Constant.Global;
 import fxjzzyo.com.sspkudormselection.Constant.ResponseBean;
+import fxjzzyo.com.sspkudormselection.MainActivity;
 import fxjzzyo.com.sspkudormselection.R;
 import fxjzzyo.com.sspkudormselection.utils.NetUtils;
 import fxjzzyo.com.sspkudormselection.utils.SPFutils;
@@ -48,7 +49,6 @@ import okhttp3.Response;
  * create an instance of this fragment.
  */
 public class SelectOneFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -80,7 +80,6 @@ public class SelectOneFragment extends Fragment implements SwipeRefreshLayout.On
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -97,7 +96,6 @@ public class SelectOneFragment extends Fragment implements SwipeRefreshLayout.On
      * @param param2 Parameter 2.
      * @return A new instance of fragment SelectOneFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static SelectOneFragment newInstance(String param1, String param2) {
         SelectOneFragment fragment = new SelectOneFragment();
         Bundle args = new Bundle();
@@ -225,7 +223,13 @@ public class SelectOneFragment extends Fragment implements SwipeRefreshLayout.On
                             Log.i("tag", "errcode: " + error_code);
                             if (error_code==0) {//提交成功
                                 //设置数据
+
                                 Toast.makeText(getActivity(), "选择成功！", Toast.LENGTH_SHORT).show();
+
+                                //跳转到selectSuccessfragment
+                                MainActivity.mainActivityInstance.switchFragment(getParentFragment(),SelectSuccessFragment.newInstance("", ""));
+
+
                             } else {
                                 Toast.makeText(getActivity(), "选择失败！错误代码： " + error_code, Toast.LENGTH_SHORT).show();
                             }
@@ -238,6 +242,7 @@ public class SelectOneFragment extends Fragment implements SwipeRefreshLayout.On
             }
         });
     }
+
 
     @OnClick(R.id.ll_select_building)
     public void selectBuilding() {

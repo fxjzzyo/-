@@ -45,7 +45,6 @@ import okhttp3.Response;
  * create an instance of this fragment.
  */
 public class QueryFragment extends Fragment implements View.OnClickListener {
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -88,7 +87,6 @@ public class QueryFragment extends Fragment implements View.OnClickListener {
      * @param param2 Parameter 2.
      * @return A new instance of fragment QueryFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static QueryFragment newInstance(String param1, String param2) {
         QueryFragment fragment = new QueryFragment();
         Bundle args = new Bundle();
@@ -133,8 +131,7 @@ public class QueryFragment extends Fragment implements View.OnClickListener {
         //为spinner设置适配器
         spinner.setAdapter(adapter);
         //默认选择男生宿舍
-        currentSelect = 1;
-
+        currentSelect = Global.gender;
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
