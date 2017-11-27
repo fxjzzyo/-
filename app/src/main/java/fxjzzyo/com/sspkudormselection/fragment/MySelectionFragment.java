@@ -4,6 +4,7 @@ package fxjzzyo.com.sspkudormselection.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -45,8 +46,7 @@ import static fxjzzyo.com.sspkudormselection.Constant.Global.vcode;
  * Use the {@link MySelectionFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MySelectionFragment extends Fragment implements View.OnClickListener {
-    // TODO: Rename parameter arguments, choose names that match
+public class MySelectionFragment extends Fragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -74,6 +74,8 @@ public class MySelectionFragment extends Fragment implements View.OnClickListene
     Unbinder unbinder;
     @BindView(R.id.tv_title)
     TextView tvTitle;
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
     private View v;
 
     private ActionBar actionBar;
@@ -94,7 +96,6 @@ public class MySelectionFragment extends Fragment implements View.OnClickListene
      * @param param2 Parameter 2.
      * @return A new instance of fragment MySelectionFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static MySelectionFragment newInstance(String param1, String param2) {
         MySelectionFragment fragment = new MySelectionFragment();
         Bundle args = new Bundle();
@@ -138,13 +139,28 @@ public class MySelectionFragment extends Fragment implements View.OnClickListene
         super.onActivityCreated(savedInstanceState);
         //初始化数据
         initData();
+        initEvent();
+
+    }
+
+    private void initEvent() {
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(R.color.red, R.color.green, R.color.blue);
     }
 
     /**
      * 初始化数据
      */
     private void initData() {
+        //从网络获取数据
+        getDataFromNet();
 
+    }
+
+    /**
+     *  //从网络获取数据
+     */
+    private void getDataFromNet() {
         //1 拿到OkHttpClient 对象,设置免https认证
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.connectTimeout(5000, TimeUnit.SECONDS);
@@ -175,8 +191,9 @@ public class MySelectionFragment extends Fragment implements View.OnClickListene
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-//                        showProgress(false);
-//                        loginProgress.setVisibility(View.GONE);
+                        if (swipeRefreshLayout.isRefreshing()) {
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
                         Toast.makeText(getActivity(), "请求失败！", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -197,12 +214,14 @@ public class MySelectionFragment extends Fragment implements View.OnClickListene
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-//                            showProgress(false);
-//                            loginProgress.setVisibility(View.GONE);
+                            if (swipeRefreshLayout.isRefreshing()) {
+                                swipeRefreshLayout.setRefreshing(false);
+                            }
                             String errcode = responseBean.getErrcode();
                             Log.i("tag", "errcode: " + errcode);
                             Log.i("tag", "data: " + personData.toString());
                             if (errcode.equals("0")) {//登录成功
+                                Toast.makeText(getActivity(), "获取数据成功！", Toast.LENGTH_SHORT).show();
                                 //设置数据
                                 setData(personData);
                                 //存储个人信息数据到sharedpreference
@@ -224,14 +243,14 @@ public class MySelectionFragment extends Fragment implements View.OnClickListene
      * 存储个人信息数据到sharedpreference
      */
     private void saveData(PersonData personData) {
-        SPFutils.saveStringData(getActivity(),SPFutils.STUDID,personData.getStudentid());
-        SPFutils.saveStringData(getActivity(),SPFutils.NAME,personData.getName());
-        SPFutils.saveStringData(getActivity(),SPFutils.GENDER,personData.getGender());
-        SPFutils.saveStringData(getActivity(),SPFutils.VCODE,personData.getVcode());
-        SPFutils.saveStringData(getActivity(),SPFutils.ROOM,personData.getRoom());
-        SPFutils.saveStringData(getActivity(),SPFutils.BUILDING,personData.getBuilding());
-        SPFutils.saveStringData(getActivity(),SPFutils.LOCATION,personData.getBuilding());
-        SPFutils.saveStringData(getActivity(),SPFutils.GRADE,personData.getGrade());
+        SPFutils.saveStringData(getActivity(), SPFutils.STUDID, personData.getStudentid());
+        SPFutils.saveStringData(getActivity(), SPFutils.NAME, personData.getName());
+        SPFutils.saveStringData(getActivity(), SPFutils.GENDER, personData.getGender());
+        SPFutils.saveStringData(getActivity(), SPFutils.VCODE, personData.getVcode());
+        SPFutils.saveStringData(getActivity(), SPFutils.ROOM, personData.getRoom());
+        SPFutils.saveStringData(getActivity(), SPFutils.BUILDING, personData.getBuilding());
+        SPFutils.saveStringData(getActivity(), SPFutils.LOCATION, personData.getBuilding());
+        SPFutils.saveStringData(getActivity(), SPFutils.GRADE, personData.getGrade());
     }
 
     /**
@@ -263,6 +282,12 @@ public class MySelectionFragment extends Fragment implements View.OnClickListene
         super.onDestroyView();
         //解除绑定
         unbinder.unbind();
+    }
+
+    @Override
+    public void onRefresh() {
+        //从网络获取数据
+        getDataFromNet();
     }
 
     public interface MySelectionFragmentListener {

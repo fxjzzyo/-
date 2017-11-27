@@ -32,6 +32,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import fxjzzyo.com.sspkudormselection.Constant.Global;
 import fxjzzyo.com.sspkudormselection.Constant.ResponseBean;
+import fxjzzyo.com.sspkudormselection.MainActivity;
 import fxjzzyo.com.sspkudormselection.R;
 import fxjzzyo.com.sspkudormselection.utils.NetUtils;
 import fxjzzyo.com.sspkudormselection.utils.SPFutils;
@@ -49,7 +50,6 @@ import okhttp3.Response;
  * create an instance of this fragment.
  */
 public class SelectTwoFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -85,7 +85,6 @@ public class SelectTwoFragment extends Fragment implements SwipeRefreshLayout.On
     @BindView(R.id.et_vcode1)
     EditText etVcode1;
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -103,7 +102,6 @@ public class SelectTwoFragment extends Fragment implements SwipeRefreshLayout.On
      * @param param2 Parameter 2.
      * @return A new instance of fragment SelectTwoFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static SelectTwoFragment newInstance(String param1, String param2) {
         SelectTwoFragment fragment = new SelectTwoFragment();
         Bundle args = new Bundle();
@@ -150,7 +148,7 @@ public class SelectTwoFragment extends Fragment implements SwipeRefreshLayout.On
         tvGender.setText(gender);
         tvVcode.setText(vcode);
 
-        queryFromNet(1);//设置剩余床位信息，默认查男生宿舍
+        queryFromNet(Global.gender);//设置剩余床位信息，默认查男生宿舍
 
     }
 
@@ -164,7 +162,7 @@ public class SelectTwoFragment extends Fragment implements SwipeRefreshLayout.On
      */
     @Override
     public void onRefresh() {
-        queryFromNet(1);//默认查男生宿舍
+        queryFromNet(Global.gender);//默认查男生宿舍
     }
 
     /**
@@ -396,7 +394,10 @@ public class SelectTwoFragment extends Fragment implements SwipeRefreshLayout.On
                             Log.i("tag", "errcode: " + error_code);
                             if (error_code == 0) {//提交成功
                                 //设置数据
+                                resetEdittext();
                                 Toast.makeText(getActivity(), "选择成功！", Toast.LENGTH_SHORT).show();
+                                //跳转到selectSuccessfragment
+                                MainActivity.mainActivityInstance.switchFragment(getParentFragment(),SelectSuccessFragment.newInstance("", ""));
                             } else {
                                 Toast.makeText(getActivity(), "选择失败！错误代码： " + error_code, Toast.LENGTH_SHORT).show();
                             }
@@ -408,6 +409,13 @@ public class SelectTwoFragment extends Fragment implements SwipeRefreshLayout.On
 
             }
         });
+    }
+    /**
+     * 重置输入框
+     */
+    private void resetEdittext() {
+        etStduid1.setText("");
+        etVcode1.setText("");
     }
 
     private String building[] = new String[]{"5号楼", "13号楼", "14号楼", "8号楼", "9号楼"};
