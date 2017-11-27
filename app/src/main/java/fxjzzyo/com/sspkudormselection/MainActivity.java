@@ -20,7 +20,7 @@ import fxjzzyo.com.sspkudormselection.utils.BackHandlerHelper;
 public class MainActivity extends FragmentActivity implements MySelectionFragment.MySelectionFragmentListener
 ,QueryFragment.QueryFragmentListener,SelectFragment.SelectFragmentListener{
     private DrawerLayout mDrawerLayout;
-    private NavigationView mNavigationView;
+    public NavigationView mNavigationView;
     private boolean isOpen;
     private Fragment currentFragment;
     private MySelectionFragment mySelectionFragment;
@@ -29,6 +29,7 @@ public class MainActivity extends FragmentActivity implements MySelectionFragmen
 
     private long lastBackKeyDownTick = 0;
     private static final long MAX_DOUBLE_BACK_DURATION = 1500;
+    public static MainActivity mainActivityInstance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,7 @@ public class MainActivity extends FragmentActivity implements MySelectionFragmen
             }
         });
         initNavigationViewItemSelected();
+        mainActivityInstance = this;
     }
 
     public void showDefaultFragment() {

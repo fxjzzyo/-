@@ -4,10 +4,174 @@
     android:layout_height="match_parent"
     tools:context="fxjzzyo.com.sspkudormselection.fragment.SelectThreeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="3" />
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include layout="@layout/baseinfo_layout" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="剩余床位信息"
+                    android:textSize="16sp" />
+
+                <include
+                    layout="@layout/bed_num_layout"
+                    android:visibility="visible" />
+
+                <LinearLayout
+                    android:id="@+id/ll_select_building"
+                    style="@style/lineralayout_item_style"
+                    android:background="@drawable/selector_linear_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/text_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="目标宿舍楼：" />
+
+                    <TextView
+                        android:id="@+id/tv_target_building"
+                        style="@style/text_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableRight="@mipmap/right_aw"
+                        tools:text="5号楼" />
+                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="同住人信息"
+                    android:textSize="16sp" />
+                <LinearLayout
+                style="@style/lineralayout_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/text_style"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="学    号：" />
+
+                <EditText
+                    android:id="@+id/et_stduid1"
+                    android:inputType="number"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    style="@style/edit_text_style"
+                    tools:text="5783783483" />
+            </LinearLayout>
+                <LinearLayout
+                    style="@style/lineralayout_item_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/text_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="校验码：" />
+
+                    <EditText
+                        android:id="@+id/et_vcode1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/edit_text_style"
+                        tools:text="fdsad" />
+                </LinearLayout>
+                <LinearLayout
+                    style="@style/lineralayout_item_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/text_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="学    号：" />
+
+                    <EditText
+                        android:id="@+id/et_stduid2"
+                        android:inputType="number"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/edit_text_style"
+                        tools:text="5783783483" />
+                </LinearLayout>
+                <LinearLayout
+                    style="@style/lineralayout_item_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/text_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="校验码：" />
+
+                    <EditText
+                        android:id="@+id/et_vcode2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/edit_text_style"
+                        tools:text="fdsad" />
+                </LinearLayout>
+                <TextView
+                    style="@style/text_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="开放时间：\n男生: 2017-08-30 15:00:00~2017-09-01 12:00:00
+        \n女生: 2017-08-28 14:00:00~2017-09-01 12:00:00
+        \n说明:\n1.办理时需要提供校验码，请勿透露给非同住人！\n2.本系统仅限于大兴校区新生使用！" />
+
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+    <Button
+        android:theme="@style/red_button_style"
+        android:id="@+id/btn_post_select"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="5dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:text="提交"
+        android:textSize="20sp"
+        />
 
 </FrameLayout>
