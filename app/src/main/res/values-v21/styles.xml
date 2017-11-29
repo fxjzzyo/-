@@ -1,0 +1,13 @@
+<resources>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+    <style name="red_button_style">
+        <item name="colorButtonNormal">@color/colorPrimary</item>
+        <item name="android:state_activated">@color/red</item>
+    </style>
+</resources>
