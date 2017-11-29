@@ -4,6 +4,7 @@ package fxjzzyo.com.sspkudormselection.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -44,7 +45,7 @@ import okhttp3.Response;
  * Use the {@link QueryFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class QueryFragment extends Fragment implements View.OnClickListener {
+public class QueryFragment extends Fragment implements View.OnClickListener,SwipeRefreshLayout.OnRefreshListener {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -67,12 +68,14 @@ public class QueryFragment extends Fragment implements View.OnClickListener {
     TextView tv9;
     @BindView(R.id.spinner)
     Spinner spinner;
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     private ActionBar actionBar;
 
     private String mParam1;
     private String mParam2;
-    private ArrayAdapter<String> adapter ;
+    private ArrayAdapter<String> adapter;
     private int currentSelect;//当前选择的宿舍类别，1：男；2：女
 
     public QueryFragment() {
@@ -111,9 +114,6 @@ public class QueryFragment extends Fragment implements View.OnClickListener {
         View v = inflater.inflate(R.layout.fragment_query, container, false);
         unbinder = ButterKnife.bind(this, v);
 
-        //初始化事件
-        initEvent();
-
         return v;
     }
 
@@ -137,7 +137,7 @@ public class QueryFragment extends Fragment implements View.OnClickListener {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i == 0) {//男生
                     currentSelect = 1;
-                }else {//女生
+                } else {//女生
                     currentSelect = 2;
                 }
 
@@ -150,8 +150,8 @@ public class QueryFragment extends Fragment implements View.OnClickListener {
 
             }
         });
-
-
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(R.color.red, R.color.green, R.color.blue);
 
     }
 
@@ -160,6 +160,9 @@ public class QueryFragment extends Fragment implements View.OnClickListener {
         super.onActivityCreated(savedInstanceState);
         //初始化数据
         initData();
+        //初始化事件
+        initEvent();
+
     }
 
 
@@ -167,13 +170,15 @@ public class QueryFragment extends Fragment implements View.OnClickListener {
      * 初始化数据
      */
     private void initData() {
-
-     queryFromNet(currentSelect);
+        //从网络获取数据
+        queryFromNet(currentSelect);
 
     }
 
+
     /**
      * 根据选择的宿舍类别查询数据
+     *
      * @param currentSelect
      */
     private void queryFromNet(int currentSelect) {
@@ -277,6 +282,12 @@ public class QueryFragment extends Fragment implements View.OnClickListener {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onRefresh() {
+        //从网络获取数据
+        queryFromNet(currentSelect);
     }
 
     public interface QueryFragmentListener {

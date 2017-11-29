@@ -3,202 +3,253 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/normalBackground"
+    android:orientation="vertical"
     tools:context="fxjzzyo.com.sspkudormselection.fragment.MySelectionFragment">
 
     <include layout="@layout/toolbar_layout" />
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
-
-            <LinearLayout
-                style="@style/lineralayout_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    style="@style/text_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="学号：" />
-
-                <TextView
-                    android:id="@+id/tv_stuid"
-                    style="@style/text_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    tools:text="1701210848" />
-            </LinearLayout>
-
-            <LinearLayout
-                style="@style/lineralayout_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    style="@style/text_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="姓名：" />
-
-                <TextView
-                    android:id="@+id/tv_name"
-                    style="@style/text_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    tools:text="周杰伦" />
-            </LinearLayout>
-
-            <LinearLayout
-                style="@style/lineralayout_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    style="@style/text_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="性别：" />
-
-                <TextView
-                    android:id="@+id/tv_gender"
-                    style="@style/text_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    tools:text="男" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                style="@style/lineralayout_item_style"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    style="@style/text_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="校验码：" />
-
-                <TextView
-                    android:id="@+id/tv_vcode"
-                    style="@style/text_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    tools:text="asdf12" />
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/lineralayout_item_style"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <TextView
-                    style="@style/text_style"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    style="@style/lineralayout_item_style"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="房间号：" />
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tv_room"
-                    style="@style/text_style"
-                    android:layout_width="0dp"
+                    <TextView
+                        style="@style/text_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="状态：" />
+
+                    <TextView
+                        android:id="@+id/tv_state"
+                        style="@style/text_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        tools:text="已完成办理" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/ll_build_number"
+                    style="@style/lineralayout_item_style"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    tools:text="5101" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/text_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="楼号：" />
+
+                    <TextView
+                        android:id="@+id/tv_building"
+                        style="@style/text_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        tools:text="5" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_room_number"
+                    style="@style/lineralayout_item_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/text_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="房间号：" />
+
+                    <TextView
+                        android:id="@+id/tv_room"
+                        style="@style/text_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        tools:text="5101" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btn_to_select"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:text="去选宿舍"
+                    android:textSize="20sp"
+                    android:theme="@style/red_button_style"
+                    android:visibility="gone" />
+
+
+                <LinearLayout
+                    style="@style/lineralayout_item_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/text_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="学号：" />
+
+                    <TextView
+                        android:id="@+id/tv_stuid"
+                        style="@style/text_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        tools:text="1701210848" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/lineralayout_item_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/text_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="姓名：" />
+
+                    <TextView
+                        android:id="@+id/tv_name"
+                        style="@style/text_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        tools:text="周杰伦" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/lineralayout_item_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/text_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="性别：" />
+
+                    <TextView
+                        android:id="@+id/tv_gender"
+                        style="@style/text_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        tools:text="男" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/lineralayout_item_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/text_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="校验码：" />
+
+                    <TextView
+                        android:id="@+id/tv_vcode"
+                        style="@style/text_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        tools:text="asdf12" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/lineralayout_item_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/text_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="年级：" />
+
+                    <TextView
+                        android:id="@+id/tv_grade"
+                        style="@style/text_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        tools:text="2017" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/lineralayout_item_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/text_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="校区：" />
+
+                   <TextView
+                        android:id="@+id/tv_location"
+                        style="@style/text_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        tools:text="大兴" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/iv_map"
+                    android:scaleType="centerCrop"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:src="@mipmap/campus_map" />
+
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/lineralayout_item_style"
-                android:orientation="horizontal">
-
-                <TextView
-                    style="@style/text_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="楼号：" />
-
-                <TextView
-                    android:id="@+id/tv_building"
-                    style="@style/text_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    tools:text="5" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                style="@style/lineralayout_item_style"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    style="@style/text_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="校区：" />
-
-                <TextView
-                    android:id="@+id/tv_location"
-                    style="@style/text_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    tools:text="大兴" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                style="@style/lineralayout_item_style"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    style="@style/text_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="年级：" />
-
-                <TextView
-                    android:id="@+id/tv_grade"
-                    style="@style/text_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    tools:text="2017" />
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+        </ScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>
