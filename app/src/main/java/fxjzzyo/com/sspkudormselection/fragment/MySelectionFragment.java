@@ -11,7 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,10 +27,12 @@ import javax.net.ssl.SSLSession;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import fxjzzyo.com.sspkudormselection.Constant.Global;
 import fxjzzyo.com.sspkudormselection.Constant.PersonData;
 import fxjzzyo.com.sspkudormselection.Constant.ResponseBean;
+import fxjzzyo.com.sspkudormselection.MainActivity;
 import fxjzzyo.com.sspkudormselection.R;
 import fxjzzyo.com.sspkudormselection.utils.NetUtils;
 import fxjzzyo.com.sspkudormselection.utils.SPFutils;
@@ -76,6 +80,16 @@ public class MySelectionFragment extends Fragment implements View.OnClickListene
     TextView tvTitle;
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.tv_state)
+    TextView tvState;
+    @BindView(R.id.ll_build_number)
+    LinearLayout llBuildNumber;
+    @BindView(R.id.ll_room_number)
+    LinearLayout llRoomNumber;
+    @BindView(R.id.btn_to_select)
+    Button btnToSelect;
+    @BindView(R.id.iv_map)
+    ImageView ivMap;
     private View v;
 
     private ActionBar actionBar;
@@ -158,7 +172,7 @@ public class MySelectionFragment extends Fragment implements View.OnClickListene
     }
 
     /**
-     *  //从网络获取数据
+     * //从网络获取数据
      */
     private void getDataFromNet() {
         //1 拿到OkHttpClient 对象,设置免https认证
@@ -259,12 +273,25 @@ public class MySelectionFragment extends Fragment implements View.OnClickListene
      * @param personData
      */
     private void setData(PersonData personData) {
+        String room = personData.getRoom();
+        if (room==null) {//还未选宿舍
+            tvState.setText("未办理");
+            llBuildNumber.setVisibility(View.GONE);
+            llRoomNumber.setVisibility(View.GONE);
+            ivMap.setVisibility(View.GONE);
+            btnToSelect.setVisibility(View.VISIBLE);
+        } else {//已办理
+            tvState.setText("已办理");
+            tvRoom.setText(personData.getRoom());
+            tvBuilding.setText(personData.getBuilding());
+            ivMap.setVisibility(View.VISIBLE);
+            btnToSelect.setVisibility(View.GONE);
+        }
+
         tvStuid.setText(personData.getStudentid());
         tvName.setText(personData.getName());
         tvGender.setText(personData.getGender());
         tvVcode.setText(personData.getVcode());
-        tvRoom.setText(personData.getRoom());
-        tvBuilding.setText(personData.getBuilding());
         tvLocation.setText(personData.getLocation());
         tvGrade.setText(personData.getGrade());
         //记录校验码
@@ -288,6 +315,18 @@ public class MySelectionFragment extends Fragment implements View.OnClickListene
     public void onRefresh() {
         //从网络获取数据
         getDataFromNet();
+    }
+
+    /**
+     * 跳转到选宿舍页
+     */
+    @OnClick(R.id.btn_to_select)
+    public void toSelect() {
+        //切换菜单按钮
+        MainActivity.mainActivityInstance.mNavigationView.setCheckedItem(R.id.navigation_select);
+        //跳转到SelectFragment
+        MainActivity.mainActivityInstance.switchFragment(this,SelectFragment.newInstance("", ""));
+
     }
 
     public interface MySelectionFragmentListener {

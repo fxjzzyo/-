@@ -21,6 +21,11 @@ public class SPFutils {
     public static String LOCATION = "location";
     public static String GRADE = "grade";
 
+    public static final String SPF_USER = "user";
+    public static final String IS_REMEMBER = "remember";
+    public static final String KEY_PASSWORD = "password";
+    public static final String IS_AUTO_LOGIN = "autoLogin";
+
     public static String getStringData(Context context,String key,String defaultValue) {
         SharedPreferences spf = context.getSharedPreferences(PERSON_INFO, MODE_PRIVATE);
         String value = spf.getString(key,defaultValue);

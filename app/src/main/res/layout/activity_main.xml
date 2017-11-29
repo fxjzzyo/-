@@ -32,13 +32,13 @@
                 android:background="#ffffff">
 
                 <Button
-                    android:id="@+id/setting_bt"
+                    android:id="@+id/btn_logout"
                     android:theme="@style/red_button_style"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:onClick="settingOnClick"
-                    android:text="设置"
+                    android:onClick="logOutOnClick"
+                    android:text="注销登录"
                     style="@style/Widget.AppCompat.Button.Colored"
                     android:textSize="16sp" />
 
@@ -50,7 +50,7 @@
                     android:background="#fff1f1f1" />
 
                 <Button
-                    android:id="@+id/quit_bt"
+                    android:id="@+id/btn_quit"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

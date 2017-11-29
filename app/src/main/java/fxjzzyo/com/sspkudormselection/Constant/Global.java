@@ -21,4 +21,6 @@ public class Global {
     //自己的性别，默认男生。1：男；2：女
     public static int gender = 1;
 
+    public static boolean isNetAvailable;
+
 }
