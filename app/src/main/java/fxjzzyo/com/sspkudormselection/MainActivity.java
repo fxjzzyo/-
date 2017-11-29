@@ -1,5 +1,6 @@
 package fxjzzyo.com.sspkudormselection;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -12,10 +13,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import fxjzzyo.com.sspkudormselection.Constant.Global;
 import fxjzzyo.com.sspkudormselection.fragment.MySelectionFragment;
 import fxjzzyo.com.sspkudormselection.fragment.QueryFragment;
 import fxjzzyo.com.sspkudormselection.fragment.SelectFragment;
 import fxjzzyo.com.sspkudormselection.utils.BackHandlerHelper;
+import fxjzzyo.com.sspkudormselection.utils.SPFutils;
 
 public class MainActivity extends FragmentActivity implements MySelectionFragment.MySelectionFragmentListener
 ,QueryFragment.QueryFragmentListener,SelectFragment.SelectFragmentListener{
@@ -37,6 +40,7 @@ public class MainActivity extends FragmentActivity implements MySelectionFragmen
         setContentView(R.layout.activity_main);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
+
         showDefaultFragment();
         mNavigationView.setItemIconTintList(null);
         mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
@@ -61,6 +65,7 @@ public class MainActivity extends FragmentActivity implements MySelectionFragmen
         });
         initNavigationViewItemSelected();
         mainActivityInstance = this;
+
     }
 
     public void showDefaultFragment() {
@@ -157,8 +162,25 @@ public class MainActivity extends FragmentActivity implements MySelectionFragmen
             }
         }
     }
-    public void settingOnClick(View v){
+
+    /**
+     * 注销登录
+     * @param v
+     */
+    public void logOutOnClick(View v){
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        Global.account = null;
+        //设置下次取消自动登录
+        SPFutils.saveStringData(this,SPFutils.IS_AUTO_LOGIN,null);
+        this.finish();
+
     }
+
+    /**
+     * 退出程序
+     * @param v
+     */
     public void quitOnClick(View v){
         finish();
         System.exit(0);
