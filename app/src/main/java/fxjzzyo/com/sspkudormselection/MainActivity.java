@@ -109,10 +109,10 @@ public class MainActivity extends FragmentActivity implements MySelectionFragmen
                         }
                         switchFragment(currentFragment, selectFragment);
                         break;
-                    case R.id.navigation_share:
+                     /*case R.id.navigation_share:
 //                        ShareUtils.getInstance(MainActivity.this).share(getResources().getString(R.string.share_app_to_friends), "program");
                         break;
-                   /* case R.id.navigation_about_project:
+                   case R.id.navigation_about_project:
                         if (aboutProjectFragment == null) {
                             aboutProjectFragment = AboutProjectFragment.newInstance();
                         }

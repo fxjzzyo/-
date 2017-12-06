@@ -18,7 +18,7 @@
             android:title="选择宿舍" />
 
     </group>
-    <group
+   <!-- <group
         android:id="@+id/bottom_group"
         android:checkableBehavior="single">
         <item
@@ -33,7 +33,7 @@
             android:id="@+id/navigation_about_author"
             android:icon="@drawable/ic__about_author_24dp"
             android:title="关于作者" />
-    </group>
+    </group>-->
 
 
 </menu>

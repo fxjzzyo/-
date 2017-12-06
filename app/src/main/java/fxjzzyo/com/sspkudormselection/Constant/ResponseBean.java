@@ -13,24 +13,12 @@ public class ResponseBean implements Serializable {
     public String getData() {
         return data;
     }
-
     public void setData(String data) {
         this.data = data;
     }
-    /*  private T data;
-
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
-    }*/
-
     public String getErrcode() {
         return errcode;
     }
-
     public void setErrcode(String errcode) {
         this.errcode = errcode;
     }
