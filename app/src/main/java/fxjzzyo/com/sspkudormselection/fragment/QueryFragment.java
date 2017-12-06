@@ -130,8 +130,7 @@ public class QueryFragment extends Fragment implements View.OnClickListener,Swip
         adapter.add("女");
         //为spinner设置适配器
         spinner.setAdapter(adapter);
-        //默认选择男生宿舍
-        currentSelect = Global.gender;
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -170,6 +169,8 @@ public class QueryFragment extends Fragment implements View.OnClickListener,Swip
      * 初始化数据
      */
     private void initData() {
+        //默认选择男生宿舍
+        currentSelect = Global.gender;
         //从网络获取数据
         queryFromNet(currentSelect);
 
@@ -212,8 +213,9 @@ public class QueryFragment extends Fragment implements View.OnClickListener,Swip
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-//                        showProgress(false);
-//                        loginProgress.setVisibility(View.GONE);
+                        if (swipeRefreshLayout.isRefreshing()) {
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
                         Toast.makeText(getActivity(), "请求失败！", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -237,14 +239,15 @@ public class QueryFragment extends Fragment implements View.OnClickListener,Swip
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-//                            showProgress(false);
-//                            loginProgress.setVisibility(View.GONE);
+                            if (swipeRefreshLayout.isRefreshing()) {
+                                swipeRefreshLayout.setRefreshing(false);
+                            }
                             String errcode = responseBean.getErrcode();
                             Log.i("tag", "errcode: " + errcode);
-//                            Log.i("tag", "data: " + personData.toString());
                             if (errcode.equals("0")) {//登录成功
                                 //设置数据
                                 setData(jsonObject);
+                                Toast.makeText(getActivity(), "获取数据成功！", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(getActivity(), "请求失败！错误代码： " + errcode, Toast.LENGTH_SHORT).show();
                             }
