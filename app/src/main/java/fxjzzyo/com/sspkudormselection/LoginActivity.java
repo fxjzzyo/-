@@ -20,23 +20,12 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 
 import java.io.IOException;
-import java.security.SecureRandom;
-import java.util.concurrent.TimeUnit;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
 
 import fxjzzyo.com.sspkudormselection.Constant.Global;
 import fxjzzyo.com.sspkudormselection.Constant.ResponseBean;
+import fxjzzyo.com.sspkudormselection.utils.NetUtils;
 import fxjzzyo.com.sspkudormselection.utils.SPFutils;
-import fxjzzyo.com.sspkudormselection.utils.TrustAllCerts;
 import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.Response;
 
 import static fxjzzyo.com.sspkudormselection.utils.SPFutils.getStringData;
@@ -74,7 +63,6 @@ public class LoginActivity extends Activity {
     }
 
     private void initDatas() {
-//        loginProgress = new ProgressBar(this);
         //初始化登录框
         initUserEditText();
         //判断是否自动登录
@@ -139,106 +127,72 @@ public class LoginActivity extends Activity {
 
     }
 
-   /* public void Login(View view) {
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        startActivity(intent);
-        LoginActivity.this.finish();
-    }*/
+   public void login(View view) {
+       final String account = etAccount.getText().toString();
+       final String pass = etPassword.getText().toString();
+       if (account.isEmpty() || pass.isEmpty()) {
+           Toast.makeText(this, "用户名或密码不能为空！", Toast.LENGTH_SHORT).show();
+           return;
+       }
 
-    /**
-     * 点击登录按钮
-     *
-     * @param view
-     */
-    public void login(View view) {
+       if(!Global.isNetAvailable)
+       {
+           Toast.makeText(this, "网络不可用！", Toast.LENGTH_SHORT).show();
+           return;
+       }
+       //进度条
+       loginProgress.setVisibility(View.VISIBLE);
+       NetUtils netUtils = NetUtils.getInstance();
+       netUtils.getDataAsynFromNet(Global.LOGIN + "?username=" + account + "&password=" + pass,
+               new NetUtils.MyNetCall() {
+                   @Override
+                   public void success(Call call, Response response) throws IOException {
+                       Log.i("tag", "success");
+                       String result = response.body().string();
+                       final ResponseBean responseBean = JSON.parseObject(result, ResponseBean.class);
 
-        final String account = etAccount.getText().toString();
-        final String pass = etPassword.getText().toString();
-        if (account.isEmpty() || pass.isEmpty()) {
-            Toast.makeText(this, "用户名或密码不能为空！", Toast.LENGTH_SHORT).show();
-            return;
-        }
+                       if (responseBean != null) {
+                           runOnUiThread(new Runnable() {
+                               @Override
+                               public void run() {
+                                   loginProgress.setVisibility(View.GONE);
+                                   String errcode = responseBean.getErrcode();
+                                   if (errcode.equals("0")) {//登录成功
+                                       //记录学号
+                                       Global.account = account;
+                                       //存储用户名密码
+                                       saveUserName(account, pass);
 
-        if(!Global.isNetAvailable)
-        {
-            Toast.makeText(this, "网络不可用！", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        //进度条
-        loginProgress.setVisibility(View.VISIBLE);
+                                       Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                       startActivity(intent);
+                                       LoginActivity.this.finish();
+                                   } else {
+                                       Toast.makeText(LoginActivity.this, "请求失败！错误代码： " + errcode, Toast.LENGTH_SHORT).show();
+                                   }
 
-        //1 拿到OkHttpClient 对象,设置免https认证
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.connectTimeout(1000, TimeUnit.SECONDS);
-        builder.sslSocketFactory(createSSLSocketFactory());
-        builder.hostnameVerifier(new HostnameVerifier() {
-            @Override
-            public boolean verify(String hostname, SSLSession session) {
-                return true;
-            }
-        });
+                               }
+                           });
 
-        OkHttpClient okHttpClient = builder.build();
-        Response response = null;
+                       }
+                   }
 
-        //2 构造Request
-        Request request = null;
-        Request.Builder requestBuilder = new Request.Builder();
-        request = requestBuilder.get().url(Global.LOGIN + "?username=" + account + "&password=" + pass).build();
+                   @Override
+                   public void failed(Call call, IOException e) {
+                       Log.i("tag", "failed");
+                       runOnUiThread(new Runnable() {
+                           @Override
+                           public void run() {
+                               loginProgress.setVisibility(View.GONE);
+                               Toast.makeText(LoginActivity.this, "请求失败！", Toast.LENGTH_SHORT).show();
+                           }
+                       });
+                   }
+               }
 
-        //3 将Request封装为Call
-        Call call = okHttpClient.newCall(request);
-        //4 执行Call
-        call.enqueue(new Callback() {
+       );
 
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.i("tag", "failed");
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-//                        showProgress(false);
-                        loginProgress.setVisibility(View.GONE);
-                        Toast.makeText(LoginActivity.this, "请求失败！", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
+   }
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Log.i("tag", "success");
-                String result = response.body().string();
-                final ResponseBean responseBean = JSON.parseObject(result, ResponseBean.class);
-
-                if (responseBean != null) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-//                            showProgress(false);
-                            loginProgress.setVisibility(View.GONE);
-                            String errcode = responseBean.getErrcode();
-                            if (errcode.equals("0")) {//登录成功
-                                //记录学号
-                                Global.account = account;
-                                //存储用户名密码
-                                saveUserName(account, pass);
-
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                startActivity(intent);
-                                LoginActivity.this.finish();
-                            } else {
-                                Toast.makeText(LoginActivity.this, "请求失败！错误代码： " + errcode, Toast.LENGTH_SHORT).show();
-                            }
-
-                        }
-                    });
-
-                }
-
-            }
-        });
-
-    }
     /**
      * 是否记住用户名，密码
      *
@@ -255,19 +209,7 @@ public class LoginActivity extends Activity {
         }
 
     }
-    private static SSLSocketFactory createSSLSocketFactory() {
-        SSLSocketFactory ssfFactory = null;
 
-        try {
-            SSLContext sc = SSLContext.getInstance("TLS");
-            sc.init(null, new TrustManager[]{new TrustAllCerts()}, new SecureRandom());
-
-            ssfFactory = sc.getSocketFactory();
-        } catch (Exception e) {
-        }
-
-        return ssfFactory;
-    }
 
     /**
      * Shows the progress UI and hides the login form.
