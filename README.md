@@ -1,5 +1,13 @@
 ## 这是一个北京大学软件与微电子学院在线选择宿舍的android APP。
-运行效果：
+
+### 技术要点：
+
+- 整体结构：侧滑菜单+fragment+viewpager
+- 网络框架：okhttp3
+- 控件绑定：butterknife
+- 下拉刷新：SwipeRefreshLayout
+
+### 运行效果：
 
 - gif演示
 

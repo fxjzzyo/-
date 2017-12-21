@@ -34,6 +34,7 @@ public class LoginActivity extends Activity {
     private static final int SUCCESS = 1;
     private static final int FAILED = 0;
 
+
     private TextInputEditText etAccount, etPassword;
     private Button btnLogin;
     private ProgressBar loginProgress;
@@ -77,6 +78,7 @@ public class LoginActivity extends Activity {
     }
 
     private void initEvent() {
+
         cbAutoLogin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -110,88 +112,87 @@ public class LoginActivity extends Activity {
      * 根据是否记住密码，初始化登录框
      */
     private void initUserEditText() {
-        String isRemem = SPFutils.getStringData(this, SPFutils.IS_REMEMBER,"");
+        String isRemem = SPFutils.getStringData(this, SPFutils.IS_REMEMBER, "");
 
         if (!isRemem.isEmpty()) {
-            String name = getStringData(this, SPFutils.STUDID,"");
-            String password = getStringData(this, SPFutils.KEY_PASSWORD,"");
+            String name = getStringData(this, SPFutils.STUDID, "");
+            String password = getStringData(this, SPFutils.KEY_PASSWORD, "");
             etAccount.setText(name);
             etAccount.setSelection(name.length());
             etPassword.setText(password);
             etPassword.setSelection(password.length());
             cbRemember.setChecked(true);
-        }else {
+        } else {
             cbRemember.setChecked(false);
         }
 
 
     }
 
-   public void login(View view) {
-       final String account = etAccount.getText().toString();
-       final String pass = etPassword.getText().toString();
-       if (account.isEmpty() || pass.isEmpty()) {
-           Toast.makeText(this, "用户名或密码不能为空！", Toast.LENGTH_SHORT).show();
-           return;
-       }
+    public void login(View view) {
+        final String account = etAccount.getText().toString();
+        final String pass = etPassword.getText().toString();
+        if (account.isEmpty() || pass.isEmpty()) {
+            Toast.makeText(this, "用户名或密码不能为空！", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-       if(!Global.isNetAvailable)
-       {
-           Toast.makeText(this, "网络不可用！", Toast.LENGTH_SHORT).show();
-           return;
-       }
-       //进度条
-       loginProgress.setVisibility(View.VISIBLE);
-       NetUtils netUtils = NetUtils.getInstance();
-       netUtils.getDataAsynFromNet(Global.LOGIN + "?username=" + account + "&password=" + pass,
-               new NetUtils.MyNetCall() {
-                   @Override
-                   public void success(Call call, Response response) throws IOException {
-                       Log.i("tag", "success");
-                       String result = response.body().string();
-                       final ResponseBean responseBean = JSON.parseObject(result, ResponseBean.class);
+        if (!Global.isNetAvailable) {
+            Toast.makeText(this, "网络不可用！", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        //进度条
+        loginProgress.setVisibility(View.VISIBLE);
+        NetUtils netUtils = NetUtils.getInstance();
+        netUtils.getDataAsynFromNet(Global.LOGIN + "?username=" + account + "&password=" + pass,
+                new NetUtils.MyNetCall() {
+                    @Override
+                    public void success(Call call, Response response) throws IOException {
+                        Log.i("tag", "success");
+                        String result = response.body().string();
+                        final ResponseBean responseBean = JSON.parseObject(result, ResponseBean.class);
 
-                       if (responseBean != null) {
-                           runOnUiThread(new Runnable() {
-                               @Override
-                               public void run() {
-                                   loginProgress.setVisibility(View.GONE);
-                                   String errcode = responseBean.getErrcode();
-                                   if (errcode.equals("0")) {//登录成功
-                                       //记录学号
-                                       Global.account = account;
-                                       //存储用户名密码
-                                       saveUserName(account, pass);
+                        if (responseBean != null) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    loginProgress.setVisibility(View.GONE);
+                                    String errcode = responseBean.getErrcode();
+                                    if (errcode.equals("0")) {//登录成功
+                                        //记录学号
+                                        Global.account = account;
+                                        //存储用户名密码
+                                        saveUserName(account, pass);
 
-                                       Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                       startActivity(intent);
-                                       LoginActivity.this.finish();
-                                   } else {
-                                       Toast.makeText(LoginActivity.this, "请求失败！错误代码： " + errcode, Toast.LENGTH_SHORT).show();
-                                   }
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                        LoginActivity.this.finish();
+                                    } else {
+                                        Toast.makeText(LoginActivity.this, "请求失败！错误代码： " + errcode, Toast.LENGTH_SHORT).show();
+                                    }
 
-                               }
-                           });
+                                }
+                            });
 
-                       }
-                   }
+                        }
+                    }
 
-                   @Override
-                   public void failed(Call call, IOException e) {
-                       Log.i("tag", "failed");
-                       runOnUiThread(new Runnable() {
-                           @Override
-                           public void run() {
-                               loginProgress.setVisibility(View.GONE);
-                               Toast.makeText(LoginActivity.this, "请求失败！", Toast.LENGTH_SHORT).show();
-                           }
-                       });
-                   }
-               }
+                    @Override
+                    public void failed(Call call, IOException e) {
+                        Log.i("tag", "failed");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                loginProgress.setVisibility(View.GONE);
+                                Toast.makeText(LoginActivity.this, "请求失败！", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
 
-       );
+        );
 
-   }
+    }
 
     /**
      * 是否记住用户名，密码

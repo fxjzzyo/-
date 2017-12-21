@@ -37,7 +37,7 @@ public class NetUtils {
     private OkHttpClient mOkHttpClient;
 
     private NetUtils() {
-        okhttp3.OkHttpClient.Builder ClientBuilder=new okhttp3.OkHttpClient.Builder();
+        okhttp3.OkHttpClient.Builder ClientBuilder = new okhttp3.OkHttpClient.Builder();
         ClientBuilder.readTimeout(20, TimeUnit.SECONDS);//读取超时
         ClientBuilder.connectTimeout(6, TimeUnit.SECONDS);//连接超时
         ClientBuilder.writeTimeout(60, TimeUnit.SECONDS);//写入超时
@@ -49,11 +49,12 @@ public class NetUtils {
                 return true;
             }
         });
-        mOkHttpClient=ClientBuilder.build();
+        mOkHttpClient = ClientBuilder.build();
     }
 
     /**
      * 单例模式获取NetUtils
+     *
      * @return
      */
     public static NetUtils getInstance() {
@@ -68,16 +69,16 @@ public class NetUtils {
     }
 
 
-
     /**
      * get请求，同步方式，获取网络数据，是在主线程中执行的，需要新起线程，将其放到子线程中执行
+     *
      * @param url
      * @return
      */
-    public  Response getDataSynFromNet(String url) {
+    public Response getDataSynFromNet(String url) {
         //1 构造Request
         Request.Builder builder = new Request.Builder();
-        Request request=builder.get().url(url).build();
+        Request request = builder.get().url(url).build();
         //2 将Request封装为Call
         Call call = mOkHttpClient.newCall(request);
         //3 执行Call，得到response
@@ -89,15 +90,17 @@ public class NetUtils {
         }
         return response;
     }
+
     /**
      * post请求，同步方式，提交数据，是在主线程中执行的，需要新起线程，将其放到子线程中执行
+     *
      * @param url
      * @param bodyParams
      * @return
      */
-    public  Response postDataSynToNet(String url,Map<String,String> bodyParams) {
+    public Response postDataSynToNet(String url, Map<String, String> bodyParams) {
         //1构造RequestBody
-        RequestBody body=setRequestBody(bodyParams);
+        RequestBody body = setRequestBody(bodyParams);
         //2 构造Request
         Request.Builder requestBuilder = new Request.Builder();
         Request request = requestBuilder.post(body).url(url).build();
@@ -112,37 +115,40 @@ public class NetUtils {
         }
         return response;
     }
+
     /**
      * 自定义网络回调接口
      */
-    public interface MyNetCall{
+    public interface MyNetCall {
         void success(Call call, Response response) throws IOException;
+
         void failed(Call call, IOException e);
     }
 
 
     /**
      * get请求，异步方式，获取网络数据，是在子线程中执行的，需要切换到主线程才能更新UI
+     *
      * @param url
      * @param myNetCall
      * @return
      */
-    public  void getDataAsynFromNet(String url, final MyNetCall myNetCall) {
+    public void getDataAsynFromNet(String url, final MyNetCall myNetCall) {
         //1 构造Request
         Request.Builder builder = new Request.Builder();
-        Request request=builder.get().url(url).build();
+        Request request = builder.get().url(url).build();
         //2 将Request封装为Call
         Call call = mOkHttpClient.newCall(request);
         //3 执行Call
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                myNetCall.failed(call,e);
+                myNetCall.failed(call, e);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                myNetCall.success(call,response);
+                myNetCall.success(call, response);
 
             }
         });
@@ -150,13 +156,14 @@ public class NetUtils {
 
     /**
      * post请求，异步方式，提交数据，是在子线程中执行的，需要切换到主线程才能更新UI
+     *
      * @param url
      * @param bodyParams
      * @param myNetCall
      */
-    public  void postDataAsynToNet(String url, Map<String,String> bodyParams, final MyNetCall myNetCall) {
+    public void postDataAsynToNet(String url, Map<String, String> bodyParams, final MyNetCall myNetCall) {
         //1构造RequestBody
-        RequestBody body=setRequestBody(bodyParams);
+        RequestBody body = setRequestBody(bodyParams);
         //2 构造Request
         Request.Builder requestBuilder = new Request.Builder();
         Request request = requestBuilder.post(body).url(url).build();
@@ -166,34 +173,36 @@ public class NetUtils {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                myNetCall.failed(call,e);
+                myNetCall.failed(call, e);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                myNetCall.success(call,response);
+                myNetCall.success(call, response);
 
             }
         });
     }
+
     /**
      * post的请求参数，构造RequestBody
+     *
      * @param BodyParams
      * @return
      */
-    private RequestBody setRequestBody(Map<String, String> BodyParams){
-        RequestBody body=null;
-        okhttp3.FormBody.Builder formEncodingBuilder=new okhttp3.FormBody.Builder();
-        if(BodyParams != null){
+    private RequestBody setRequestBody(Map<String, String> BodyParams) {
+        RequestBody body = null;
+        okhttp3.FormBody.Builder formEncodingBuilder = new okhttp3.FormBody.Builder();
+        if (BodyParams != null) {
             Iterator<String> iterator = BodyParams.keySet().iterator();
             String key = "";
             while (iterator.hasNext()) {
                 key = iterator.next().toString();
                 formEncodingBuilder.add(key, BodyParams.get(key));
-                Log.d("post http", "post_Params==="+key+"===="+BodyParams.get(key));
+                Log.d("post http", "post_Params===" + key + "====" + BodyParams.get(key));
             }
         }
-        body=formEncodingBuilder.build();
+        body = formEncodingBuilder.build();
         return body;
 
     }
@@ -201,6 +210,7 @@ public class NetUtils {
 
     /**
      * 判断网络是否可用
+     *
      * @param context
      * @return
      */
@@ -222,8 +232,10 @@ public class NetUtils {
         }
         return false;
     }
+
     /**
      * 生成安全套接字工厂，用于https请求的证书跳过
+     *
      * @return
      */
     public SSLSocketFactory createSSLSocketFactory() {
@@ -236,6 +248,7 @@ public class NetUtils {
         }
         return ssfFactory;
     }
+
     /**
      * 用于信任所有证书
      */
@@ -243,10 +256,12 @@ public class NetUtils {
         @Override
         public void checkClientTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {
         }
+
         @Override
         public void checkServerTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {
 
         }
+
         @Override
         public X509Certificate[] getAcceptedIssuers() {
             return new X509Certificate[0];
